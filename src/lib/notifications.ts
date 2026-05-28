@@ -4,7 +4,7 @@ import {
   Report,
   Pole,
   ReportPriority,
-} from "@/generated/prisma";
+} from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
 import { getGoogleMapsLink } from "@/lib/maps";
 

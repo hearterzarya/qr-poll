@@ -5,7 +5,7 @@ import { reportFiltersSchema } from "@/lib/validators";
 import { parseSearchParams, handleApiError } from "@/lib/api-request";
 import { apiSuccess } from "@/lib/api-response";
 import { ADMIN_READ_ROLES } from "@/lib/rbac";
-import { Prisma } from "@/generated/prisma";
+import { Prisma } from "@/generated/prisma/client";
 
 export async function GET(req: NextRequest) {
   try {

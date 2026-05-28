@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { ReportPriority, ReportStatus } from "@/generated/prisma";
+import { ReportPriority, ReportStatus } from "@/generated/prisma/client";
 
 /** Window in ms for duplicate detection (30 minutes). */
 export const DUPLICATE_WINDOW_MS = 30 * 60 * 1000;

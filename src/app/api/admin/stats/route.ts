@@ -1,11 +1,11 @@
 import { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAuth } from "@/lib/auth";
-import { ReportPriority, ReportStatus } from "@/generated/prisma";
+import { ReportPriority, ReportStatus } from "@/generated/prisma/client";
 import { handleApiError } from "@/lib/api-request";
 import { apiSuccess } from "@/lib/api-response";
 import { ADMIN_READ_ROLES } from "@/lib/rbac";
-import { Prisma } from "@/generated/prisma";
+import { Prisma } from "@/generated/prisma/client";
 
 export async function GET(req: NextRequest) {
   try {

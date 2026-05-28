@@ -12,7 +12,7 @@ import {
 } from "@/lib/api-response";
 import { ADMIN_READ_ROLES, assertReportAccess } from "@/lib/rbac";
 import { sendStatusUpdate } from "@/lib/notifications";
-import { ReportStatus } from "@/generated/prisma";
+import { ReportStatus } from "@/generated/prisma/client";
 
 export async function PATCH(
   req: NextRequest,

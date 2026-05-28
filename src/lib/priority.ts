@@ -1,4 +1,4 @@
-import { ReportPriority } from "@/generated/prisma";
+import { ReportPriority } from "@/generated/prisma/client";
 
 const P1_CATEGORIES = new Set([
   "ACCIDENT",

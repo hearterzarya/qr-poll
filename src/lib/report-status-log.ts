@@ -1,4 +1,4 @@
-import { ReportStatus } from "@/generated/prisma";
+import { ReportStatus } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
 
 export async function createReportStatusLog(params: {

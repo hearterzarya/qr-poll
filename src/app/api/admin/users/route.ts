@@ -5,7 +5,7 @@ import { createUserSchema } from "@/lib/validators";
 import { parseJsonBody, handleApiError } from "@/lib/api-request";
 import { apiSuccess, apiConflict } from "@/lib/api-response";
 import { USER_READ_ROLES } from "@/lib/rbac";
-import { UserRole } from "@/generated/prisma";
+import { UserRole } from "@/generated/prisma/client";
 
 const USER_MANAGE_ROLES: UserRole[] = ["SUPER_ADMIN"];
 

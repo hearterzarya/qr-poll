@@ -8,12 +8,12 @@
  *
  * 🟢 You can import this file directly.
  */
-export type * from './models/User'
-export type * from './models/Department'
-export type * from './models/Pole'
-export type * from './models/Report'
-export type * from './models/ReportMedia'
-export type * from './models/ReportStatusLog'
-export type * from './models/QrScanLog'
-export type * from './models/NotificationLog'
-export type * from './commonInputTypes'
+export type * from './models/User.ts'
+export type * from './models/Department.ts'
+export type * from './models/Pole.ts'
+export type * from './models/Report.ts'
+export type * from './models/ReportMedia.ts'
+export type * from './models/ReportStatusLog.ts'
+export type * from './models/QrScanLog.ts'
+export type * from './models/NotificationLog.ts'
+export type * from './commonInputTypes.ts'

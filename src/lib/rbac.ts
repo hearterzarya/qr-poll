@@ -1,4 +1,4 @@
-import { UserRole } from "@/generated/prisma";
+import { UserRole } from "@/generated/prisma/client";
 import type { SessionUser } from "@/lib/auth";
 
 export const ADMIN_READ_ROLES: UserRole[] = [

@@ -4,7 +4,7 @@ import { requireAuth } from "@/lib/auth";
 import { updateUserSchema, idParamSchema } from "@/lib/validators";
 import { parseJsonBody, handleApiError } from "@/lib/api-request";
 import { apiSuccess, apiNotFound, apiError } from "@/lib/api-response";
-import { UserRole } from "@/generated/prisma";
+import { UserRole } from "@/generated/prisma/client";
 
 const USER_MANAGE_ROLES: UserRole[] = ["SUPER_ADMIN"];
 

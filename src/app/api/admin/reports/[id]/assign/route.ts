@@ -9,7 +9,7 @@ import {
   apiError,
 } from "@/lib/api-response";
 import { ADMIN_MANAGE_ROLES } from "@/lib/rbac";
-import { ReportStatus, UserRole } from "@/generated/prisma";
+import { ReportStatus, UserRole } from "@/generated/prisma/client";
 
 const ASSIGNABLE_ROLES: UserRole[] = ["CONTRACTOR", "FIELD_TEAM", "ADMIN"];
 

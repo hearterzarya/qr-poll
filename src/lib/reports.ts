@@ -1,4 +1,4 @@
-import { ReportPriority, ReportStatus } from "@/generated/prisma";
+import { ReportPriority, ReportStatus } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
 import { calculatePriority } from "@/lib/priority";
 import { generateReportCode } from "@/lib/report-code";

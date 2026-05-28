@@ -5,7 +5,7 @@ import { poleSchema, idParamSchema } from "@/lib/validators";
 import { parseJsonBody, handleApiError } from "@/lib/api-request";
 import { apiSuccess, apiNotFound, apiConflict } from "@/lib/api-response";
 import { ADMIN_READ_ROLES, ADMIN_MANAGE_ROLES } from "@/lib/rbac";
-import { PoleStatus } from "@/generated/prisma";
+import { PoleStatus } from "@/generated/prisma/client";
 
 export async function GET(
   req: NextRequest,
