@@ -1,26 +1,32 @@
 import { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { requireAuth } from "@/lib/auth";
 import { getAppBaseUrl } from "@/lib/app-url";
 import { buildPoleQrResponse } from "@/lib/qr";
-import { idParamSchema, qrFormatSchema } from "@/lib/validators";
+import { poleCodeParamSchema, qrFormatSchema, sanitizePoleCode } from "@/lib/validators";
 import { handleApiError } from "@/lib/api-request";
 import { apiNotFound } from "@/lib/api-response";
-import { ADMIN_READ_ROLES } from "@/lib/rbac";
 
 export const runtime = "nodejs";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ poleCode: string }> },
 ) {
   try {
-    const auth = await requireAuth(req, ADMIN_READ_ROLES);
-    if ("error" in auth) return auth.error;
-
     const raw = await params;
-    const idParsed = idParamSchema.safeParse(raw);
-    if (!idParsed.success) {
+    const parsed = poleCodeParamSchema.safeParse({
+      poleCode: sanitizePoleCode(raw.poleCode),
+    });
+    if (!parsed.success) {
+      return apiNotFound("Pole not found");
+    }
+
+    const pole = await prisma.pole.findUnique({
+      where: { poleCode: parsed.data.poleCode },
+      select: { poleCode: true, status: true },
+    });
+
+    if (!pole || pole.status === "INACTIVE") {
       return apiNotFound("Pole not found");
     }
 
@@ -28,16 +34,8 @@ export async function GET(
       Object.fromEntries(new URL(req.url).searchParams.entries()),
     );
     const format = formatParsed.success ? formatParsed.data : "png";
-
-    const pole = await prisma.pole.findUnique({
-      where: { id: idParsed.data.id },
-      select: { poleCode: true, status: true },
-    });
-    if (!pole) {
-      return apiNotFound("Pole not found");
-    }
-
     const baseUrl = getAppBaseUrl(req.headers);
+
     return buildPoleQrResponse(pole.poleCode, format, baseUrl);
   } catch (err) {
     return handleApiError(err);

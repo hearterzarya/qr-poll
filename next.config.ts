@@ -7,7 +7,7 @@ const prismaClientEntry = path.join(
 );
 
 const nextConfig: NextConfig = {
-  serverExternalPackages: ["pg", "bcryptjs", "@prisma/client"],
+  serverExternalPackages: ["pg", "bcryptjs", "@prisma/client", "qrcode"],
   images: {
     qualities: [75, 85],
   },

@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { PageLoading } from "@/components/shared/page-loading";
 import { formatDate } from "@/lib/utils";
+import { getClientAppBaseUrl } from "@/lib/app-url";
 import { getPolePublicUrl } from "@/lib/qr";
 import { PriorityBadge } from "@/components/highway/priority-badge";
 
@@ -32,6 +33,7 @@ export default function PoleDetailPage({
 
   const reports = (pole.reports as Array<Record<string, unknown>>) || [];
   const poleCode = pole.poleCode as string;
+  const publicUrl = getPolePublicUrl(poleCode, getClientAppBaseUrl());
 
   return (
     <div className="p-6 lg:p-8 space-y-8 pb-24 lg:pb-8 max-w-4xl">
@@ -69,15 +71,11 @@ export default function PoleDetailPage({
             QR Plate Generator
           </CardTitle>
           <p className="text-xs text-muted-foreground font-mono break-all">
-            {getPolePublicUrl(poleCode)}
+            {publicUrl}
           </p>
         </CardHeader>
         <CardContent>
-          <PrintableQRPlate
-            poleId={id}
-            poleCode={poleCode}
-            publicUrl={getPolePublicUrl(poleCode)}
-          />
+          <PrintableQRPlate poleCode={poleCode} publicUrl={publicUrl} />
         </CardContent>
       </Card>
 

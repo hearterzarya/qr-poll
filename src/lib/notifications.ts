@@ -6,6 +6,7 @@ import {
   ReportPriority,
 } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
+import { getAppBaseUrl } from "@/lib/app-url";
 import { getGoogleMapsLink } from "@/lib/maps";
 
 type ReportWithPole = Report & { pole: Pole };
@@ -59,9 +60,7 @@ Please review and assign field team.`;
 }
 
 function buildStatusMessage(report: ReportWithPole, status: string): string {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, "") ||
-    "http://localhost:3000";
+  const baseUrl = getAppBaseUrl();
   return `📋 Report Status Update
 
 Report ID: ${report.reportCode}

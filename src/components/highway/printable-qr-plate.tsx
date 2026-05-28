@@ -6,15 +6,14 @@ import { Button } from "@/components/ui/button";
 import { QRPlatePreview } from "./qr-plate-preview";
 
 export function PrintableQRPlate({
-  poleId,
   poleCode,
   publicUrl,
 }: {
-  poleId: string;
   poleCode: string;
   publicUrl: string;
 }) {
-  const qrImageUrl = `/api/admin/poles/${poleId}/qr?format=png`;
+  const encodedCode = encodeURIComponent(poleCode);
+  const qrImageUrl = `/api/poles/${encodedCode}/qr?format=png`;
 
   return (
     <div className="space-y-6">
@@ -63,13 +62,13 @@ export function PrintableQRPlate({
 
       <div className="flex flex-wrap gap-2 justify-center">
         <Button asChild size="sm">
-          <a href={`/api/admin/poles/${poleId}/qr?format=png`} download>
+          <a href={`/api/poles/${encodedCode}/qr?format=png`} download>
             <Download className="h-4 w-4" />
             Download PNG
           </a>
         </Button>
         <Button asChild size="sm" variant="outline">
-          <a href={`/api/admin/poles/${poleId}/qr?format=svg`} download>
+          <a href={`/api/poles/${encodedCode}/qr?format=svg`} download>
             Download SVG
           </a>
         </Button>
