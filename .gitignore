@@ -40,8 +40,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-/src/generated/prisma
-
 # citizen upload storage (keep folder only)
 /public/uploads/*
 !/public/uploads/.gitkeep
