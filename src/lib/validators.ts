@@ -1,11 +1,7 @@
 import { z } from "zod";
-import { EMERGENCY_TYPES, COMPLAINT_CATEGORIES } from "@/lib/constants";
+import { EMERGENCY_TYPES } from "@/lib/constants";
 
 const emergencyIds = EMERGENCY_TYPES.map((e) => e.id) as [string, ...string[]];
-const complaintIds = COMPLAINT_CATEGORIES.map((c) => c.id) as [
-  string,
-  ...string[],
-];
 
 export const cuidSchema = z.string().min(10).max(30);
 export const poleCodeSchema = z

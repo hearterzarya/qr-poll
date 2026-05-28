@@ -39,8 +39,7 @@ export default function ReportDetailPage({
   const [uploadingProof, setUploadingProof] = useState(false);
 
   function load() {
-    setError(false);
-    fetch(`/api/admin/reports/${id}`)
+    return fetch(`/api/admin/reports/${id}`)
       .then((r) => {
         if (!r.ok) throw new Error();
         return r.json();
@@ -53,7 +52,7 @@ export default function ReportDetailPage({
   }
 
   useEffect(() => {
-    load();
+    void load();
     fetch("/api/admin/users")
       .then((r) => r.json())
       .then((d) => setUsers(d.users || []))
@@ -63,7 +62,13 @@ export default function ReportDetailPage({
   if (error) {
     return (
       <div className="p-6">
-        <ErrorState message="Report not found or access denied." onRetry={load} />
+        <ErrorState
+          message="Report not found or access denied."
+          onRetry={() => {
+            setError(false);
+            void load();
+          }}
+        />
       </div>
     );
   }

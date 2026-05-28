@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
-import { getComplaintIcon } from "@/lib/category-icons";
+import { ComplaintIcon } from "@/components/shared/category-icon";
 import { cn } from "@/lib/utils";
 
 export function HighwayCategoryCard({
@@ -17,8 +17,6 @@ export function HighwayCategoryCard({
   categoryId: string;
   index?: number;
 }) {
-  const Icon = getComplaintIcon(categoryId);
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -37,7 +35,7 @@ export function HighwayCategoryCard({
           <div className="warning-strip rotate-45 translate-x-4 -translate-y-2 w-16" />
         </div>
         <div className="rounded-lg bg-amber-500/15 border border-amber-500/25 p-2 w-fit">
-          <Icon className="h-5 w-5 text-amber-400" />
+          <ComplaintIcon categoryId={categoryId} className="h-5 w-5 text-amber-400" />
         </div>
         <div className="flex items-end justify-between gap-1 mt-2">
           <span className="text-xs font-semibold text-foreground leading-snug pr-1">

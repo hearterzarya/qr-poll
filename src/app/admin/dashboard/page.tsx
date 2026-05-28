@@ -51,8 +51,7 @@ export default function DashboardPage() {
   const [error, setError] = useState(false);
 
   function load() {
-    setError(false);
-    fetch("/api/admin/stats")
+    return fetch("/api/admin/stats")
       .then((r) => {
         if (!r.ok) throw new Error();
         return r.json();
@@ -62,13 +61,19 @@ export default function DashboardPage() {
   }
 
   useEffect(() => {
-    load();
+    void load();
   }, []);
 
   if (error) {
     return (
       <div className="p-6 lg:p-8">
-        <ErrorState message="Could not load dashboard data." onRetry={load} />
+        <ErrorState
+          message="Could not load dashboard data."
+          onRetry={() => {
+            setError(false);
+            void load();
+          }}
+        />
       </div>
     );
   }

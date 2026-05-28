@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getComplaintIcon } from "@/lib/category-icons";
+import { ComplaintIcon } from "@/components/shared/category-icon";
 import { prisma } from "@/lib/prisma";
 import { COMPLAINT_CATEGORIES } from "@/lib/constants";
 import { CitizenShell } from "@/components/public/citizen-shell";
@@ -31,15 +31,13 @@ export default async function ReportPage({
     COMPLAINT_CATEGORIES.find((c) => c.id === category)?.label ||
     "Other Complaint";
 
-  const Icon = getComplaintIcon(category);
-
   return (
     <CitizenShell backHref={`/p/${pole.poleCode}`}>
       <div className="reflective-panel reflective-border rounded-2xl overflow-hidden">
         <div className="warning-strip" />
         <div className="p-4 flex items-center gap-4">
           <div className="rounded-xl bg-amber-500/15 border border-amber-500/30 p-3">
-            <Icon className="h-7 w-7 text-amber-400" />
+            <ComplaintIcon categoryId={category} className="h-7 w-7 text-amber-400" />
           </div>
           <div className="flex-1 min-w-0">
             <p className="label-micro">Report Issue</p>

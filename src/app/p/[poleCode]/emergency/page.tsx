@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { EMERGENCY_TYPES } from "@/lib/constants";
-import { getEmergencyIcon } from "@/lib/category-icons";
+import { EmergencyIcon } from "@/components/shared/category-icon";
 import { CitizenShell } from "@/components/public/citizen-shell";
 import { EmergencyCTA } from "@/components/public/emergency-cta";
 import { EmergencyAlertCard } from "@/components/highway/emergency-alert-card";
@@ -71,7 +71,6 @@ export default function EmergencyPage({
 
       <div className="grid grid-cols-1 gap-2.5">
         {EMERGENCY_TYPES.map((type, i) => {
-          const Icon = getEmergencyIcon(type.id);
           const isActive = selected === type.id;
           return (
             <motion.button
@@ -94,7 +93,7 @@ export default function EmergencyPage({
                   isActive ? "bg-destructive/30" : "bg-destructive/10",
                 )}
               >
-                <Icon className="h-6 w-6 text-destructive" />
+                <EmergencyIcon typeId={type.id} className="h-6 w-6 text-destructive" />
               </div>
               <span className="font-semibold text-foreground text-base">
                 {type.label}

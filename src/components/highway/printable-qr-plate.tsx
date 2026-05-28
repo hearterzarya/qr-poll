@@ -14,7 +14,7 @@ export function PrintableQRPlate({
   poleCode: string;
   publicUrl: string;
 }) {
-  const qrImageUrl = `/api/admin/poles/${poleId}/qr?format=png&t=${Date.now()}`;
+  const qrImageUrl = `/api/admin/poles/${poleId}/qr?format=png`;
 
   return (
     <div className="space-y-6">
