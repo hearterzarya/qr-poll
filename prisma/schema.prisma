@@ -1,0 +1,188 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  SUPER_ADMIN
+  ADMIN
+  CONTRACTOR
+  FIELD_TEAM
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum PoleStatus {
+  ACTIVE
+  INACTIVE
+  MAINTENANCE
+}
+
+enum ReportPriority {
+  P1
+  P2
+  P3
+}
+
+enum ReportStatus {
+  NEW
+  VERIFIED
+  ASSIGNED
+  IN_PROGRESS
+  RESOLVED
+  REJECTED
+  DUPLICATE
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+}
+
+enum NotificationChannel {
+  CONSOLE
+  WHATSAPP
+  SMS
+  EMAIL
+  WEB_PUSH
+}
+
+enum NotificationStatus {
+  PENDING
+  SENT
+  FAILED
+}
+
+enum DepartmentType {
+  AUTHORITY
+  CONTRACTOR
+}
+
+model User {
+  id           String     @id @default(cuid())
+  name         String
+  email        String     @unique
+  passwordHash String
+  role         UserRole   @default(ADMIN)
+  phone        String?
+  status       UserStatus @default(ACTIVE)
+  departmentId String?
+  department   Department? @relation(fields: [departmentId], references: [id])
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  assignedReports Report[]           @relation("AssignedReports")
+  statusChanges   ReportStatusLog[]
+}
+
+model Department {
+  id            String         @id @default(cuid())
+  name          String
+  type          DepartmentType
+  contactPerson String?
+  phone         String?
+  email         String?
+  district      String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  users User[]
+}
+
+model Pole {
+  id              String     @id @default(cuid())
+  poleCode        String     @unique
+  highwayName     String
+  state           String
+  district        String
+  kmMarker        String
+  latitude        Float
+  longitude       Float
+  nearestLandmark String?
+  authorityName   String?
+  contractorName  String?
+  status          PoleStatus @default(ACTIVE)
+  qrToken         String     @default(cuid())
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  reports   Report[]
+  scanLogs  QrScanLog[]
+}
+
+model Report {
+  id            String         @id @default(cuid())
+  reportCode    String         @unique
+  poleId        String
+  pole          Pole           @relation(fields: [poleId], references: [id])
+  category      String
+  emergencyType String?
+  priority      ReportPriority @default(P3)
+  description   String?
+  userPhone     String?
+  userLatitude  Float?
+  userLongitude Float?
+  status        ReportStatus   @default(NEW)
+  assignedToId  String?
+  assignedTo    User?          @relation("AssignedReports", fields: [assignedToId], references: [id])
+  deviceInfo    String?
+  ipAddress     String?
+  isDuplicate   Boolean        @default(false)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  resolvedAt    DateTime?
+
+  media            ReportMedia[]
+  statusLogs       ReportStatusLog[]
+  notificationLogs NotificationLog[]
+}
+
+model ReportMedia {
+  id        String    @id @default(cuid())
+  reportId  String
+  report    Report    @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  mediaUrl  String
+  mediaType MediaType @default(IMAGE)
+  fileName  String?
+  createdAt DateTime  @default(now())
+}
+
+model ReportStatusLog {
+  id          String        @id @default(cuid())
+  reportId    String
+  report      Report        @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  oldStatus   ReportStatus?
+  newStatus   ReportStatus
+  note        String?
+  changedById String?
+  changedBy   User?         @relation(fields: [changedById], references: [id])
+  createdAt   DateTime      @default(now())
+}
+
+model QrScanLog {
+  id         String   @id @default(cuid())
+  poleId     String
+  pole       Pole     @relation(fields: [poleId], references: [id], onDelete: Cascade)
+  deviceHash String?
+  ipAddress  String?
+  userAgent  String?
+  scannedAt  DateTime @default(now())
+}
+
+model NotificationLog {
+  id        String              @id @default(cuid())
+  reportId  String
+  report    Report              @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  channel   NotificationChannel @default(CONSOLE)
+  recipient String?
+  message   String
+  status    NotificationStatus  @default(SENT)
+  createdAt DateTime            @default(now())
+}

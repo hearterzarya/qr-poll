@@ -1,26 +1,344 @@
 @import "tailwindcss";
 
+/* ─── PoleSafe Highway Authority Design System ─── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #07111f;
+  --foreground: #f8fafc;
+  --card: #0b1f3a;
+  --card-foreground: #f8fafc;
+  --popover: #0b1f3a;
+  --popover-foreground: #f8fafc;
+  --primary: #00d4ff;
+  --primary-foreground: #07111f;
+  --secondary: #102a4c;
+  --secondary-foreground: #e2e8f0;
+  --muted: #102a4c;
+  --muted-foreground: #94a3b8;
+  --accent: #0e3a5c;
+  --accent-foreground: #00d4ff;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: rgba(148, 163, 184, 0.18);
+  --input: rgba(148, 163, 184, 0.2);
+  --ring: #00d4ff;
+  --radius: 0.75rem;
+
+  --surface: #0b1f3a;
+  --surface-secondary: #102a4c;
+  --navy: #07111f;
+  --cyan: #00d4ff;
+  --emergency: #ef4444;
+  --amber: #f59e0b;
+  --success: #22c55e;
+
+  --glass-bg: rgba(11, 31, 58, 0.72);
+  --glass-border: rgba(0, 212, 255, 0.14);
+  --glass-blur: 18px;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
   --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  border-color: var(--border);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Executive typography */
+.heading-executive {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.label-micro {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+/* ─── Surfaces (photo via HighwayBackground; body supplies fallback color) ─── */
+.citizen-bg,
+.admin-bg {
+  min-height: 100dvh;
+}
+
+.admin-grid-bg {
+  background-image:
+    linear-gradient(rgba(0, 212, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 212, 255, 0.035) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* ─── Highway lane markings ─── */
+.lane-lines {
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 47px,
+    rgba(248, 250, 252, 0.04) 47px,
+    rgba(248, 250, 252, 0.04) 49px
+  );
+}
+
+.lane-lines-dashed {
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 18px,
+    rgba(245, 158, 11, 0.12) 18px,
+    rgba(245, 158, 11, 0.12) 28px
+  );
+}
+
+/* ─── Map grid ─── */
+.map-grid {
+  background-image:
+    linear-gradient(rgba(0, 212, 255, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 212, 255, 0.07) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-color: rgba(7, 17, 31, 0.55);
+}
+
+/* ─── Reflective signboard panel ─── */
+.reflective-panel {
+  background: linear-gradient(
+    145deg,
+    rgba(16, 42, 76, 0.95) 0%,
+    rgba(11, 31, 58, 0.9) 50%,
+    rgba(16, 42, 76, 0.85) 100%
+  );
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+.reflective-border {
+  position: relative;
+}
+.reflective-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 212, 255, 0.45),
+    rgba(148, 163, 184, 0.15) 40%,
+    rgba(245, 158, 11, 0.25)
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* ─── Warning strips (highway chevron style) ─── */
+.warning-strip {
+  height: 4px;
+  background: repeating-linear-gradient(
+    90deg,
+    #f59e0b 0px,
+    #f59e0b 12px,
+    #07111f 12px,
+    #07111f 24px
+  );
+}
+
+.warning-strip-red {
+  height: 4px;
+  background: repeating-linear-gradient(
+    90deg,
+    #ef4444 0px,
+    #ef4444 10px,
+    #1f2937 10px,
+    #1f2937 20px
+  );
+}
+
+.safety-edge {
+  border-left: 3px solid #f59e0b;
+  box-shadow: inset 3px 0 0 rgba(245, 158, 11, 0.15);
+}
+
+/* ─── Glass morphism ─── */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+}
+
+.glass-strong {
+  background: rgba(11, 31, 58, 0.88);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+.toll-card {
+  background: linear-gradient(160deg, rgba(16, 42, 76, 0.9), rgba(11, 31, 58, 0.95));
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+}
+
+/* ─── Animations ─── */
+@keyframes emergency-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.55);
+  }
+  50% {
+    box-shadow: 0 0 0 14px rgba(239, 68, 68, 0);
+  }
+}
+
+.emergency-pulse {
+  animation: emergency-pulse 2s ease-in-out infinite;
+}
+
+@keyframes qr-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 36px rgba(0, 212, 255, 0.45);
+  }
+}
+
+.qr-glow {
+  animation: qr-glow 3s ease-in-out infinite;
+}
+
+@keyframes map-pin-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.75;
+  }
+}
+
+.map-pin-pulse {
+  animation: map-pin-pulse 2s ease-in-out infinite;
+}
+
+@keyframes route-line {
+  0% {
+    stroke-dashoffset: 24;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.route-line-animate {
+  stroke-dasharray: 8 4;
+  animation: route-line 1.2s linear infinite;
+}
+
+@keyframes live-dot {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.8);
+  }
+}
+
+.live-dot {
+  animation: live-dot 1.5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(16, 42, 76, 0.5) 25%,
+    rgba(30, 58, 90, 0.7) 50%,
+    rgba(16, 42, 76, 0.5) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes pin-drop {
+  0% {
+    transform: translateY(-12px);
+    opacity: 0;
+  }
+  60% {
+    transform: translateY(2px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.pin-drop {
+  animation: pin-drop 0.5s ease-out forwards;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #qr-print-plate,
+  #qr-print-plate * {
+    visibility: visible;
+  }
+  #qr-print-plate {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
 }
