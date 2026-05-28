@@ -20,7 +20,7 @@ function normalizeDatabaseUrl(url: string): string {
   }
 }
 
-function createPrismaClient() {
+function createPrismaClient(): PrismaClient {
   const raw = process.env.DATABASE_URL;
   if (!raw) {
     throw new Error("DATABASE_URL is not configured");
@@ -29,14 +29,26 @@ function createPrismaClient() {
   const connectionString = normalizeDatabaseUrl(raw);
   const pool = globalForPrisma.pool ?? new Pool({ connectionString });
   const adapter = new PrismaPg(pool);
-
-  if (process.env.NODE_ENV !== "production") {
-    globalForPrisma.pool = pool;
-  }
+  globalForPrisma.pool = pool;
 
   return new PrismaClient({ adapter });
 }
 
-export const prisma = globalForPrisma.prisma ?? createPrismaClient();
+function getPrismaClient(): PrismaClient {
+  if (!globalForPrisma.prisma) {
+    globalForPrisma.prisma = createPrismaClient();
+  }
+  return globalForPrisma.prisma;
+}
 
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+/** Lazy client so `next build` does not require DATABASE_URL at compile time. */
+export const prisma = new Proxy({} as PrismaClient, {
+  get(_target, prop) {
+    const client = getPrismaClient();
+    const value = Reflect.get(client, prop, client);
+    if (typeof value === "function") {
+      return value.bind(client);
+    }
+    return value;
+  },
+});
