@@ -13,7 +13,7 @@ export function PrintableQRPlate({
   publicUrl: string;
 }) {
   const encodedCode = encodeURIComponent(poleCode);
-  const qrImageUrl = `/api/poles/${encodedCode}/qr?format=png`;
+  const qrImageUrl = `/api/poles/${encodedCode}/qr?format=png&v=2`;
 
   return (
     <div className="space-y-6">
@@ -62,13 +62,13 @@ export function PrintableQRPlate({
 
       <div className="flex flex-wrap gap-2 justify-center">
         <Button asChild size="sm">
-          <a href={`/api/poles/${encodedCode}/qr?format=png`} download>
+          <a href={`/api/poles/${encodedCode}/qr?format=png&v=2`} download>
             <Download className="h-4 w-4" />
             Download PNG
           </a>
         </Button>
         <Button asChild size="sm" variant="outline">
-          <a href={`/api/poles/${encodedCode}/qr?format=svg`} download>
+          <a href={`/api/poles/${encodedCode}/qr?format=svg&v=2`} download>
             Download SVG
           </a>
         </Button>

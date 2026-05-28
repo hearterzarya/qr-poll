@@ -40,8 +40,9 @@ export async function buildPoleQrResponse(
     return new NextResponse(svg, {
       headers: {
         "Content-Type": "image/svg+xml",
-        "Cache-Control": "public, max-age=86400, immutable",
+        "Cache-Control": "public, max-age=3600, must-revalidate",
         "Content-Disposition": `inline; filename="${poleCode}.svg"`,
+        "X-QR-Target-Url": url,
       },
     });
   }
@@ -50,8 +51,9 @@ export async function buildPoleQrResponse(
   return new NextResponse(new Uint8Array(png), {
     headers: {
       "Content-Type": "image/png",
-      "Cache-Control": "public, max-age=86400, immutable",
+      "Cache-Control": "public, max-age=3600, must-revalidate",
       "Content-Disposition": `inline; filename="${poleCode}.png"`,
+      "X-QR-Target-Url": url,
     },
   });
 }
